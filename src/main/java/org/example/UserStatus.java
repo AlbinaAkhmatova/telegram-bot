@@ -23,6 +23,7 @@ public class UserStatus {
     // Устанавливаем состояние пользователя
     public void setUserState(Long userId, UserState state) {
         userStates.put(userId, state);
+        System.out.println(state);
     }
 
     // Получаем состояние пользователя
