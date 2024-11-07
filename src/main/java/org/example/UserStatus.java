@@ -6,14 +6,15 @@ import java.util.Map;
 public class UserStatus {
     // Определяем состояния пользователей
     public enum UserState {
-        ONLINE,
         OFFLINE,
-        AWAY,
-        BUSY,
-        DO_NOT_DISTURB,
-        IDLE,
-        ACTIVE,
-        INACTIVE
+        Clicked_Details,
+        ClickedCalculateNatal_Chart,
+
+        EnteredBirthDate,
+
+        EnteredBirthTime,
+
+        EnteredBirthPlace
     }
 
     // Храним состояния пользователей
