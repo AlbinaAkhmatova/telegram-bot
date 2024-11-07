@@ -119,7 +119,7 @@ public class Bot extends TelegramLongPollingBot {
             case "page2":{
                 status.setUserState(Id, UserStatus.UserState.Clicked_Details);
                 sendText(Id, pg2);
-                sendMenu(Id,"Or",keyboardM2);
+                sendMenu(Id,"Learn more...",keyboardM2);
                 sendMenu(Id, "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Choose</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
 
                 break;
@@ -128,6 +128,7 @@ public class Bot extends TelegramLongPollingBot {
                 sendText(Id, "Do it later");
                 break;
             }
+
         }
 
     }
