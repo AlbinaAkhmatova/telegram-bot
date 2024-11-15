@@ -4,11 +4,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import javax.validation.constraints.Null;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Bot extends TelegramLongPollingBot {
     InlineKeyboardButton page1 = InlineKeyboardButton.builder().text("Calculate natal chart").callbackData("page1").build();
@@ -18,6 +18,7 @@ public class Bot extends TelegramLongPollingBot {
     //Long idPol = 1L;
     TokenBot tk=new TokenBot();
     UserStatus status=new UserStatus();
+    NatalChart natalChart=new NatalChart();
     InlineKeyboardMarkup keyboardM1 = InlineKeyboardMarkup.builder()
             .keyboardRow(List.of(page1))
             .keyboardRow(List.of(page2)).keyboardRow(List.of(page3))
@@ -55,9 +56,18 @@ public class Bot extends TelegramLongPollingBot {
                     sendText(user.getId(), msgBot);
                     sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Choose</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
                 }
-
-
             }
+            else {
+                // Обработка текстовых сообщений, не являющихся командами
+                String userMessage = msg.getText();
+                UserStatus userState = status; // Получаем текущее состояние пользователя
+                // Сохранение сообщения в зависимости от состояния пользователя
+                saveUserMessage (idPol, userMessage, userState);
+            }
+
+
+
+
         }
         else  {
             String callbackData = update.getCallbackQuery().getData();
@@ -69,6 +79,40 @@ public class Bot extends TelegramLongPollingBot {
         }
 
 
+    }
+    // Метод для сохранения сообщения
+    private void saveUserMessage(Long userId, String message, UserStatus userState) {
+        System.out.println("Saving message from user " + userId + " with state " + userState + ": " + message);
+
+        switch (userState.getUserState(userId)) {
+            case ClickedCalculateNatal_Chart:
+                String regex="^(0[1-9]|[12][0-9]|3[01])\\.(0[1-9]|1[0-2])\\.(\\d{4})$";
+                Pattern pattern=Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(message);
+                if (matcher.matches()) {
+                    natalChart.BirthDate=message;
+                    status.setUserState(userId, UserStatus.UserState.EnteredBirthDate);
+                    natalChart.NatalChartCalc(userId,status,this);
+                }
+                else
+                    natalChart.NatalChartCalc(userId,userState,this);
+                break;
+            case  EnteredBirthDate:
+                if (message.length()<2){
+                    natalChart.NatalChartCalc(userId,userState,this);
+                }
+                else{
+                    sendText(userId,"Good job!");
+                    natalChart.BirthPlace=message;
+                    status.setUserState(userId, UserStatus.UserState.EnteredBirthPlace);
+                    natalChart.NatalChartCalc(userId,status,this);
+                }
+                break;
+
+            default:
+
+                break;
+        }
     }
     public void sendText(Long who, String what){
         SendMessage sm = SendMessage.builder()
@@ -112,8 +156,8 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (Call) {
             case "page1": {
-                sendText(Id, "Don't do yet");
                 status.setUserState(Id, UserStatus.UserState.ClickedCalculateNatal_Chart);
+                natalChart.NatalChartCalc(Id,status,this);
                 break;
             }
             case "page2":{
