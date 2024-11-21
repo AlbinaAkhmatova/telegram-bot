@@ -8,12 +8,12 @@ public class NatalChart {
     String BirthPlace=null;
     public void NatalChartCalc(Long Id, UserStatus status, Bot bot) {
        if (status.getUserState(Id)== UserStatus.UserState.ClickedCalculateNatal_Chart){
-           bot.sendText(Id,"Please, write your birthday date: **.**.****");
+           bot.sendText(Id,"Пожалуйста, введи свою дату рождения: **.**.**** (Например: 22.02.2024)");
 
        }
 
        if (status.getUserState(Id)== UserStatus.UserState.EnteredBirthDate){
-           bot.sendText(Id,"Please, write your birth place(From Russia): (For example: Екатеринбург)");
+           bot.sendText(Id,"Пожалуйста, введи место, где ты родился: (Например: Екатеринбург)");
 
        }
    }
