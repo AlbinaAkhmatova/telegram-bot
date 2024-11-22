@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -94,6 +95,15 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+        public static boolean isValidTime(String timeStr) {
+            try {
+                // Попробуем распарсить строку в LocalTime
+                LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
+                return true; // Если парсинг прошел успешно, время корректно
+            } catch (DateTimeParseException e) {
+                return false; // Если возникло исключение, время некорректно
+            }
+        }
 
     // Метод для сохранения сообщения
     private void saveUserMessage(Long userId, String message, UserStatus userState) {
@@ -103,7 +113,7 @@ public class Bot extends TelegramLongPollingBot {
             case ClickedCalculateNatal_Chart:
 
                 if (isValidDate(message, "dd.MM.yyyy")) {
-                    natalChart.BirthDate = message;
+                    natalChart.setBirthDate(message.split("\\.")[0],message.split("\\.")[1],message.split("\\.")[2]);
                     status.setUserState(userId, UserStatus.UserState.EnteredBirthDate);
                     natalChart.NatalChartCalc(userId, status, this);
                 }
@@ -115,15 +125,22 @@ public class Bot extends TelegramLongPollingBot {
                     natalChart.NatalChartCalc(userId, userState, this);
                 } else {
                     sendText(userId, "Все круто, молодец!");
-                    natalChart.BirthPlace = message;
+                    natalChart.setBirthPlace(message);
                     status.setUserState(userId, UserStatus.UserState.EnteredBirthPlace);
                     natalChart.NatalChartCalc(userId, status, this);
                 }
                 break;
-
-            default:
-
+            case EnteredBirthPlace:
+                if (isValidTime(message)) {
+                    natalChart.setBirthTime(message.split(":")[0],message.split(":")[1]);
+                   status.setUserState(userId,UserStatus.UserState.EnteredBirthTime);
+                   natalChart.NatalChartCalc(userId, status, this);
+                }
+                else
+                    natalChart.NatalChartCalc(userId, userState, this);
                 break;
+            case EnteredBirthTime:
+                natalChart.getPosTs();
         }
     }
 

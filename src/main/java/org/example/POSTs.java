@@ -11,7 +11,8 @@ import org.jsoup.Connection;
 
 
 public class POSTs {
-    public static void main(String[] args) {
+
+    public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute) {
         String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
         try {
             Connection.Response response = Jsoup.connect(urlString).method(Connection.Method.POST).execute();
@@ -33,14 +34,14 @@ public class POSTs {
                 WebElement cityField = driver.findElement(By.name("city"));
                 WebElement hintsField = driver.findElement(By.id("hints"));
 
-                dayField.sendKeys("22");
-                monthField.sendKeys("сентябрь");
-                yearField.sendKeys("2005");
+                dayField.sendKeys(BirthDateDay);
+                monthField.sendKeys(BirthDateMonth);
+                yearField.sendKeys(BirthDateYear);
                 hourField.clear();
-                hourField.sendKeys("9");
+                hourField.sendKeys(birtHour);
                 minuteField.clear();
-                minuteField.sendKeys("30");
-                cityField.sendKeys("Екатеринбурд");
+                minuteField.sendKeys(birthMinute);
+                cityField.sendKeys(BirthPlace);
                 try{
                     driver.findElement(By.tagName("ul")).click();
                 }catch (Exception e){
@@ -63,4 +64,6 @@ public class POSTs {
             e.printStackTrace();
         }
     }
+
+
 }
