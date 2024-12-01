@@ -1,7 +1,8 @@
 package org.example;
 
 
-import org.telegram.telegrambots.meta.api.objects.Update;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NatalChart {
     String BirthDateMonth = null;
@@ -10,7 +11,24 @@ public class NatalChart {
     String BirthPlace = null;
     private String birthHour =null;
     private String birthMinute = null;
-    private MonthsRu birthMonth;
+    Map<String, String> monthMap = new HashMap<>();
+
+
+    public NatalChart() {
+        monthMap.put("01", "Январь");
+        monthMap.put("02", "Февраль");
+        monthMap.put("03", "Март");
+        monthMap.put("04", "Апрель");
+        monthMap.put("05", "Май");
+        monthMap.put("06", "Июнь");
+        monthMap.put("07", "Июль");
+        monthMap.put("08", "Август");
+        monthMap.put("09", "Сентябрь");
+        monthMap.put("10", "Октябрь");
+        monthMap.put("11", "Ноябрь");
+        monthMap.put("12", "Декабрь");
+
+    }
 
     public void NatalChartCalc(Long Id, UserStatus status, Bot bot) {
         if (status.getUserState(Id) == UserStatus.UserState.ClickedCalculateNatal_Chart) {
@@ -23,46 +41,28 @@ public class NatalChart {
 
         }
         if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthPlace) {
-            bot.sendText(Id, "Пожалуйста, введи время, в которое ты родился: (Например: 9:00)");
+            bot.sendText(Id, "Пожалуйста, введи время, в которое ты родился: (Например: 09:00)");
         }
+        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthTime) {
+            bot.sendText(Id,"Все, отлично! Жди свой результат");
+            this.getPosTs();
+            status.removeUserState(Id);
+        }
+
 
     }
 
     public void getPosTs() {
-        POSTs.getPosts(BirthDateDay,birthMonth.getMonthName(),BirthDateYear,BirthPlace,birthHour,birthMinute);
+        System.out.println(BirthDateMonth);
+        POSTs.getPosts(BirthDateDay,BirthDateMonth,BirthDateYear,BirthPlace,birthHour,birthMinute);
     }
 
-    public enum MonthsRu {
-        Январь("01"),
-        Февраль("02"),
-        Март("03"),
-        Апрель("04"),
-        Май("05"),
-        Июнь("06"),
-        Июль("07"),
-        Август("08"),
-        Сентябрь("09"),
-        Октябрь("10"),
-        Ноябрь("11"),
-        Декабрь("12");
-        private final String monthNumber;
 
-        MonthsRu(String monthNumber) {
-            this.monthNumber = monthNumber;
-        }
-
-        public String getMonthNumber() {
-            return monthNumber;
-        }
-        public String getMonthName() {
-            return this.name(); // Возвращает имя текущего элемента перечисления
-        }
-    }
 
 
     public void setBirthDate(String day,String month,String year) {
         this.BirthDateDay = day;
-        this.BirthDateMonth = month;
+        this.BirthDateMonth = monthMap.get(month);
         this.BirthDateYear = year;
     }
 

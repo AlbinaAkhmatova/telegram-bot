@@ -12,8 +12,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Bot extends TelegramLongPollingBot {
     InlineKeyboardButton page1 = InlineKeyboardButton.builder().text("Рассчитать натальную карту").callbackData("page1").build();
@@ -95,15 +93,15 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-        public static boolean isValidTime(String timeStr) {
-            try {
-                // Попробуем распарсить строку в LocalTime
-                LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
-                return true; // Если парсинг прошел успешно, время корректно
-            } catch (DateTimeParseException e) {
-                return false; // Если возникло исключение, время некорректно
-            }
+    public static boolean isValidTime(String timeStr) {
+        try {
+            // Попробуем распарсить строку в LocalTime
+            LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
+            return true; // Если парсинг прошел успешно, время корректно
+        } catch (DateTimeParseException e) {
+            return false; // Если возникло исключение, время некорректно
         }
+    }
 
     // Метод для сохранения сообщения
     private void saveUserMessage(Long userId, String message, UserStatus userState) {
@@ -113,11 +111,10 @@ public class Bot extends TelegramLongPollingBot {
             case ClickedCalculateNatal_Chart:
 
                 if (isValidDate(message, "dd.MM.yyyy")) {
-                    natalChart.setBirthDate(message.split("\\.")[0],message.split("\\.")[1],message.split("\\.")[2]);
+                    natalChart.setBirthDate(message.split("\\.")[0], message.split("\\.")[1], message.split("\\.")[2]);
                     status.setUserState(userId, UserStatus.UserState.EnteredBirthDate);
                     natalChart.NatalChartCalc(userId, status, this);
-                }
-                else
+                } else
                     natalChart.NatalChartCalc(userId, userState, this);
                 break;
             case EnteredBirthDate:
@@ -132,15 +129,15 @@ public class Bot extends TelegramLongPollingBot {
                 break;
             case EnteredBirthPlace:
                 if (isValidTime(message)) {
-                    natalChart.setBirthTime(message.split(":")[0],message.split(":")[1]);
-                   status.setUserState(userId,UserStatus.UserState.EnteredBirthTime);
-                   natalChart.NatalChartCalc(userId, status, this);
-                }
-                else
+                    natalChart.setBirthTime(message.split(":")[0], message.split(":")[1]);
+                    status.setUserState(userId, UserStatus.UserState.EnteredBirthTime);
+                    natalChart.NatalChartCalc(userId, status, this);
+                } else
                     natalChart.NatalChartCalc(userId, userState, this);
                 break;
-            case EnteredBirthTime:
-                natalChart.getPosTs();
+            default:
+                System.out.println("Unknown state!");
+                break;
         }
     }
 
