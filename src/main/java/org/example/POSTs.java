@@ -1,5 +1,6 @@
 package org.example;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,9 +12,8 @@ import org.jsoup.Connection;
 
 
 public class POSTs {
-
+    private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
     public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute) {
-        String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
         try {
             Connection.Response response = Jsoup.connect(urlString).method(Connection.Method.POST).execute();
             int status = response.statusCode();
@@ -32,7 +32,7 @@ public class POSTs {
                 WebElement hourField = driver.findElement(By.id("chas"));
                 WebElement minuteField = driver.findElement(By.name("minuta"));
                 WebElement cityField = driver.findElement(By.name("city"));
-                WebElement hintsField = driver.findElement(By.id("hints"));
+                //WebElement hintsField = driver.findElement(By.id("hints"));
 
                 dayField.sendKeys(BirthDateDay);
                 monthField.sendKeys(BirthDateMonth);
@@ -42,20 +42,21 @@ public class POSTs {
                 minuteField.clear();
                 minuteField.sendKeys(birthMinute);
                 cityField.sendKeys(BirthPlace);
-                try{
+                try {
                     driver.findElement(By.tagName("ul")).click();
-                }catch (Exception e){
+                } catch (Exception e) {
                     //...
                     System.out.println("Ошибка при вводе города");
                 }
                 WebElement submitButton = driver.findElement(By.name("Submit"));
                 submitButton.click();
-
+                Gets getRequest = new Gets();
+                getRequest.getGets(driver);
 
             } catch (Exception e) {
                 System.out.println("Ошибка при работе с Selenium: " + e.getMessage());
             } finally {
-                driver.quit();
+                //driver.quit();
             }
 
 
@@ -64,6 +65,4 @@ public class POSTs {
             e.printStackTrace();
         }
     }
-
-
 }
