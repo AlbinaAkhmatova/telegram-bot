@@ -13,7 +13,7 @@ import org.jsoup.Connection;
 
 public class POSTs {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
-    public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute) {
+    public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
         try {
             Connection.Response response = Jsoup.connect(urlString).method(Connection.Method.POST).execute();
             int status = response.statusCode();
@@ -51,7 +51,7 @@ public class POSTs {
                 WebElement submitButton = driver.findElement(By.name("Submit"));
                 submitButton.click();
                 Gets getRequest = new Gets();
-                getRequest.getGets(driver);
+                getRequest.getGets(driver, bot, id);
 
             } catch (Exception e) {
                 System.out.println("Ошибка при работе с Selenium: " + e.getMessage());

@@ -7,14 +7,16 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 
 public class Gets {
-    public void getGets(WebDriver driver) {
+    public void getGets(WebDriver driver, Bot bot, Long id) {
         String source = driver.getPageSource();
         //System.out.println(source);
         Document doc = Jsoup.parse(source);
         Elements img = doc.select("img");
         //System.out.println(img);
         Elements enterTeg = doc.select("p");
+        //Итоговый текст
         String enterText = "";
+        //Итоговое изображение
         String enterImage = "";
         boolean flag = false;
         boolean pointer = false;
@@ -40,6 +42,9 @@ public class Gets {
                 break;
             }
         }
+        bot.sendText(id, enterImage);
+        bot.sendText(id, enterText);
+
 
     }
 }
