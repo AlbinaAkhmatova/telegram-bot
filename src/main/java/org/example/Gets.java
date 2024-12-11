@@ -79,15 +79,12 @@ public class Gets {
                     continue;
                 }
                 ind++;
-                if (ind == enterText.length() - 1) {
-                    bot.sendText(id, res);
-                }
             }
-
+            if (!(res.isEmpty()))
+                bot.sendText(id, res);
         } else {
             bot.sendText(id, enterText);
         }
-
 
         bot.sendText(id, enterImage);
 
