@@ -86,7 +86,7 @@ public class Gets {
             bot.sendText(id, enterText);
         }
 
-        bot.sendText(id, enterImage);
+        bot.sendImage(id, enterImage);
 
 
     }

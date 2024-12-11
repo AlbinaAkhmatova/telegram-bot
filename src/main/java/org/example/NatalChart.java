@@ -36,14 +36,14 @@ public class NatalChart {
 
         }
 
-        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthDate) {
+        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthTime) {
             bot.sendText(Id, "Пожалуйста, введи место, где ты родился: (Например: Екатеринбург)");
 
         }
-        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthPlace) {
+        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthDate) {
             bot.sendText(Id, "Пожалуйста, введи время, в которое ты родился: (Например: 09:00)");
         }
-        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthTime) {
+        if (status.getUserState(Id) == UserStatus.UserState.EnteredBirthPlace) {
             bot.sendText(Id,"Все, отлично! Жди свой результат");
             this.getPosTs(bot, Id);
             status.removeUserState(Id);
