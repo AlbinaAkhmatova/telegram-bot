@@ -8,9 +8,10 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Gets {
     public void getGets(WebDriver driver, Bot bot, Long id) throws UnsupportedEncodingException, MalformedURLException {
@@ -85,9 +86,28 @@ public class Gets {
         } else {
             bot.sendText(id, enterText);
         }
+        //url encoding, только в кавычках
+        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile("\"(.*?)\"");
+        Matcher matcher = pattern.matcher(enterImage);
+        int lastEnd = 0;
 
-        bot.sendImage(id, enterImage);
+        while (matcher.find()) {
+            result.append(enterImage, lastEnd, matcher.start());
+            String quotedPart = matcher.group(0);
+            String encodedPart;
 
+            try {
+                encodedPart = URLEncoder.encode(quotedPart, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
 
+            result.append(encodedPart);
+            lastEnd = matcher.end();
+        }
+        result.append(enterImage.substring(lastEnd));
+        String enterImageRes = result.toString();
+        bot.sendImage(id, enterImageRes);
     }
 }

@@ -54,7 +54,7 @@ public class NatalChart {
 
     public void getPosTs(Bot bot, Long id) {
         System.out.println(BirthDateMonth);
-        POSTs.getPosts(BirthDateDay,BirthDateMonth,BirthDateYear,BirthPlace,birthHour,birthMinute, bot, id);
+        Posts.getPosts(BirthDateDay,BirthDateMonth,BirthDateYear,BirthPlace,birthHour,birthMinute, bot, id);
     }
 
 

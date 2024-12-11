@@ -10,7 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.Connection;
 
 
-public class POSTs {
+public class Posts {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
 
     public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
@@ -21,8 +21,8 @@ public class POSTs {
                 System.out.println("Соединение успешно");
             } else System.out.println("Ошибка соединения: " + status);
             System.setProperty("webdriver.chrome.driver", "C:\\Users\\Альбина\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
-            /*ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");*/
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
             WebDriver driver = new ChromeDriver();
             try {
                 driver.get(urlString);
