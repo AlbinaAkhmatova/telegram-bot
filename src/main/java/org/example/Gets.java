@@ -6,8 +6,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class Gets {
-    public void getGets(WebDriver driver, Bot bot, Long id) {
+    public void getGets(WebDriver driver, Bot bot, Long id) throws UnsupportedEncodingException, MalformedURLException {
         String source = driver.getPageSource();
         //System.out.println(source);
         Document doc = Jsoup.parse(source);
@@ -17,7 +23,7 @@ public class Gets {
         //Итоговый текст
         String enterText = "";
         //Итоговое изображение
-        String enterImage = "";
+        String enterImage = "https://www.astroworld.ru/horon/";
         boolean flag = false;
         boolean pointer = false;
         for (Element element : enterTeg) {
@@ -38,12 +44,52 @@ public class Gets {
         }
         for (Element image : img) {
             if (!image.attr("border").isEmpty()) {
-                enterImage = image.attr("src");
+                enterImage = enterImage + image.attr("src");
                 break;
             }
         }
+        if (enterText.length() > 4096) {
+            int ind = 0;
+            int startInd = 0;
+            int pointer1 = 0;
+            int pointer2 = 0;
+            String res = "";
+            while (ind != enterText.length() - 1) {
+                if (res.length() <= 4096) {
+                    res += enterText.charAt(ind);
+                    if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
+                        pointer1 = ind;
+                    else if (enterText.charAt(ind) == '.') {
+                        pointer2 = ind;
+                    }
+
+                } else {
+                    if (pointer1 != 0) {
+                        bot.sendText(id, enterText.substring(startInd, pointer1));
+                        ind = pointer1 + 2;
+                        startInd = ind;
+                        pointer1 = 0;
+                    } else {
+                        bot.sendText(id, enterText.substring(startInd, pointer2 + 1));
+                        ind = pointer2 + 1;
+                        startInd = ind;
+                        pointer2 = 0;
+                    }
+                    res = "";
+                    continue;
+                }
+                ind++;
+                if (ind == enterText.length() - 1) {
+                    bot.sendText(id, res);
+                }
+            }
+
+        } else {
+            bot.sendText(id, enterText);
+        }
+
+
         bot.sendText(id, enterImage);
-        bot.sendText(id, enterText);
 
 
     }
