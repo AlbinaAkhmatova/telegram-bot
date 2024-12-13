@@ -110,32 +110,32 @@ public class Bot extends TelegramLongPollingBot {
         System.out.println("Saving message from user " + userId + " with state " + userState + ": " + message);
 
         switch (userState.getUserState(userId)) {
-            case ClickedCalculateNatal_Chart:
+            case CLICKED_CALCULATE_NATAL_CHART:
 
                 if (isValidDate(message, "dd.MM.yyyy")) {
                     natalChart.setBirthDate(message.split("\\.")[0], message.split("\\.")[1], message.split("\\.")[2]);
-                    status.setUserState(userId, UserStatus.UserState.EnteredBirthDate);
-                    natalChart.NatalChartCalc(userId, status, this);
+                    status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_DATE);
+                    natalChart.natalChartCalc(userId, status, this);
                 } else
-                    natalChart.NatalChartCalc(userId, userState, this);
+                    natalChart.natalChartCalc(userId, userState, this);
                 break;
-            case EnteredBirthTime:
+            case ENTERED_BIRTH_TIME:
                 if (message.length() < 2) {
-                    natalChart.NatalChartCalc(userId, userState, this);
+                    natalChart.natalChartCalc(userId, userState, this);
                 } else {
                     sendText(userId, "Все круто, молодец!");
                     natalChart.setBirthPlace(message);
-                    status.setUserState(userId, UserStatus.UserState.EnteredBirthPlace);
-                    natalChart.NatalChartCalc(userId, status, this);
+                    status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_PLACE);
+                    natalChart.natalChartCalc(userId, status, this);
                 }
                 break;
-            case EnteredBirthDate:
+            case ENTERED_BIRTH_DATE:
                 if (isValidTime(message)) {
                     natalChart.setBirthTime(message.split(":")[0], message.split(":")[1]);
-                    status.setUserState(userId, UserStatus.UserState.EnteredBirthTime);
-                    natalChart.NatalChartCalc(userId, status, this);
+                    status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_TIME);
+                    natalChart.natalChartCalc(userId, status, this);
                 } else
-                    natalChart.NatalChartCalc(userId, userState, this);
+                    natalChart.natalChartCalc(userId, userState, this);
                 break;
             default:
                 System.out.println("Unknown state!");
@@ -153,6 +153,7 @@ public class Bot extends TelegramLongPollingBot {
             throw new RuntimeException(e);
         }
     }
+
     public void sendImage(long chatId, String imageUrl) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(String.valueOf(chatId));
@@ -198,12 +199,12 @@ public class Bot extends TelegramLongPollingBot {
 
         switch (Call) {
             case "page1": {
-                status.setUserState(Id, UserStatus.UserState.ClickedCalculateNatal_Chart);
-                natalChart.NatalChartCalc(Id, status, this);
+                status.setUserState(Id, UserStatus.UserState.CLICKED_CALCULATE_NATAL_CHART);
+                natalChart.natalChartCalc(Id, status, this);
                 break;
             }
             case "page2": {
-                status.setUserState(Id, UserStatus.UserState.Clicked_Details);
+                status.setUserState(Id, UserStatus.UserState.CLICKED_DETAILS);
                 sendText(Id, pg2);
                 sendMenu(Id, "Узнать подробнее...", keyboardM2);
                 sendMenu(Id, "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Choose</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);

@@ -7,14 +7,11 @@ public class UserStatus {
     // Определяем состояния пользователей
     public enum UserState {
         OFFLINE,
-        Clicked_Details,
-        ClickedCalculateNatal_Chart,
-
-        EnteredBirthDate,
-
-        EnteredBirthTime,
-
-        EnteredBirthPlace
+        CLICKED_DETAILS,
+        CLICKED_CALCULATE_NATAL_CHART,
+        ENTERED_BIRTH_DATE,
+        ENTERED_BIRTH_TIME,
+        ENTERED_BIRTH_PLACE
     }
 
     // Храним состояния пользователей
