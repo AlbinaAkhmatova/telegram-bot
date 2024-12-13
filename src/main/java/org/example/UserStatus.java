@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserStatus {
-    // Определяем состояния пользователей
+    // определяем состояния пользователей
     public enum UserState {
         OFFLINE,
         CLICKED_DETAILS,
@@ -14,21 +14,21 @@ public class UserStatus {
         ENTERED_BIRTH_PLACE
     }
 
-    // Храним состояния пользователей
+
     private Map<Long, UserState> userStates = new HashMap<>();
 
-    // Устанавливаем состояние пользователя
+
     public void setUserState(Long userId, UserState state) {
         userStates.put(userId, state);
         System.out.println(state);
     }
 
-    // Получаем состояние пользователя
+
     public UserState getUserState(Long userId) {
         return userStates.getOrDefault(userId, UserState.OFFLINE); // По умолчанию OFFLINE
     }
 
-    // Удаляем состояние пользователя
+
     public void removeUserState(Long userId) {
         userStates.remove(userId);
     }

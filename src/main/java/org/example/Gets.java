@@ -16,14 +16,12 @@ import java.util.regex.Pattern;
 public class Gets {
     public void getGets(WebDriver driver, Bot bot, Long id) throws UnsupportedEncodingException, MalformedURLException {
         String source = driver.getPageSource();
-        //System.out.println(source);
         Document doc = Jsoup.parse(source);
         Elements img = doc.select("img");
-        //System.out.println(img);
         Elements enterTeg = doc.select("p");
-        //Итоговый текст
+        //итоговый текст
         String enterText = "";
-        //Итоговое изображение
+        //ссылка изображения до кодирования
         String enterImage = "https://www.astroworld.ru/horon/";
         boolean flag = false;
         boolean pointer = false;

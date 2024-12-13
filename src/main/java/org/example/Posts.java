@@ -35,7 +35,6 @@ public class Posts {
                 WebElement hourField = driver.findElement(By.id("chas"));
                 WebElement minuteField = driver.findElement(By.name("minuta"));
                 WebElement cityField = driver.findElement(By.name("city"));
-                //WebElement hintsField = driver.findElement(By.id("hints"));
 
                 dayField.sendKeys(BirthDateDay);
                 monthField.sendKeys(BirthDateMonth);
