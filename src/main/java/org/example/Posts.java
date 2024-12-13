@@ -26,7 +26,7 @@ public class Posts {
             System.setProperty("webdriver.chrome.driver", driverFile.getAbsolutePath());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            WebDriver driver = new ChromeDriver();
+            WebDriver driver = new ChromeDriver(options);
             try {
                 driver.get(urlString);
                 WebElement dayField = driver.findElement(By.id("den"));
