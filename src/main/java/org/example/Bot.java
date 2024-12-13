@@ -18,16 +18,14 @@ import java.util.List;
 public class Bot extends TelegramLongPollingBot {
     InlineKeyboardButton page1 = InlineKeyboardButton.builder().text("Рассчитать натальную карту").callbackData("page1").build();
     InlineKeyboardButton page2 = InlineKeyboardButton.builder().text("Подробнее...").callbackData("page2").build();
-    InlineKeyboardButton page3 = InlineKeyboardButton.builder().text("Цвет ауры").callbackData("page3").build();
+    //InlineKeyboardButton page3 = InlineKeyboardButton.builder().text("Цвет ауры").callbackData("page3").build();
     InlineKeyboardButton url = InlineKeyboardButton.builder().text("Расскажи мне об этом подробнее").url("https://www.kp.ru/woman/goroskop/natalnaya-karta/?ysclid=m2obv52lm8282521393").build();
-    //Long idPol = 1L;
     TokenBot tk = new TokenBot();
     UserStatus status = new UserStatus();
     NatalChart natalChart = new NatalChart();
     InlineKeyboardMarkup keyboardM1 = InlineKeyboardMarkup.builder()
             .keyboardRow(List.of(page1))
-            .keyboardRow(List.of(page2)).keyboardRow(List.of(page3))
-            .build();
+            .keyboardRow(List.of(page2)).build();
     InlineKeyboardMarkup keyboardM2 = InlineKeyboardMarkup.builder()
             .keyboardRow(List.of(url)).build();
 
@@ -87,6 +85,13 @@ public class Bot extends TelegramLongPollingBot {
         try {
             // Парсим дату
             LocalDate date = LocalDate.parse(dateStr, formatter);
+
+            int currentYear = LocalDate.now().getYear();
+            int year = date.getYear();
+            if (year < 1928 || year > currentYear) {
+                return false; // Год не соответствует требованиям
+            }
+
             // Если парсинг успешен, проверяем, что строка соответствует дате
             String formattedDate = date.format(formatter);
             return formattedDate.equals(dateStr); // Сравниваем исходную строку с отформатированной
@@ -211,15 +216,13 @@ public class Bot extends TelegramLongPollingBot {
 
                 break;
             }
-            case "page3": {
-                sendText(Id, "Позже");
-                break;
-            }
 
         }
-
 
     }
 
 
 }
+
+
+
