@@ -46,7 +46,7 @@ public class NatalChart {
         if (status.getUserState(Id) == UserStatus.UserState.ENTERED_BIRTH_PLACE) {
             bot.sendText(Id, "Все, отлично! Жди свой результат");
             this.getPosTs(bot, Id);
-            status.removeUserState(Id);
+            //status.removeUserState(Id);
         }
 
 
