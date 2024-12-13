@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection;
 
+import java.io.File;
+
 
 public class Posts {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
@@ -20,7 +22,8 @@ public class Posts {
             if (status == 200) {
                 System.out.println("Соединение успешно");
             } else System.out.println("Ошибка соединения: " + status);
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\Альбина\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+            File driverFile = new File(Posts.class.getClassLoader().getResource("driver/chromedriver.exe").toURI());
+            System.setProperty("webdriver.chrome.driver", driverFile.getAbsolutePath());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
             WebDriver driver = new ChromeDriver();
@@ -62,7 +65,7 @@ public class Posts {
             } catch (Exception e) {
                 System.out.println("Ошибка при работе с Selenium: " + e.getMessage());
             } finally {
-                //driver.quit();
+                driver.quit();
             }
 
 
