@@ -8,7 +8,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.jsoup.Jsoup;
 import org.jsoup.Connection;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.File;
 
@@ -56,7 +55,7 @@ public class Posts {
                     bot.sendText(id, "Введите город ещё раз ");
                     cityRight = false;
                     bot.status.setUserState(id, UserStatus.UserState.ENTERED_BIRTH_TIME);
-                    System.out.println(bot.status);
+                    //System.out.println(bot.status);
                 }
                 if (cityRight) {
                     WebElement submitButton = driver.findElement(By.name("Submit"));

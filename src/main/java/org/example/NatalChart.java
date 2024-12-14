@@ -33,12 +33,10 @@ public class NatalChart {
     public void natalChartCalc(Long Id, UserStatus status, Bot bot) {
         if (status.getUserState(Id) == UserStatus.UserState.CLICKED_CALCULATE_NATAL_CHART) {
             bot.sendText(Id, "Пожалуйста, введи свою дату рождения: **.**.**** (Например: 22.02.2024)");
-
         }
 
         if (status.getUserState(Id) == UserStatus.UserState.ENTERED_BIRTH_TIME) {
             bot.sendText(Id, "Пожалуйста, введи место, где ты родился: (Например: Екатеринбург)");
-
         }
         if (status.getUserState(Id) == UserStatus.UserState.ENTERED_BIRTH_DATE) {
             bot.sendText(Id, "Пожалуйста, введи время, в которое ты родился: (Например: 09:00)");
