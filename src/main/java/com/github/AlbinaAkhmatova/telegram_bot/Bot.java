@@ -47,8 +47,6 @@ public class Bot extends TelegramLongPollingBot {
             var msg = update.getMessage();
             var user = msg.getFrom();
             var idPol = user.getId();
-            System.out.println(idPol);
-            System.out.println(user.getId());
             if (update.getMessage().isCommand()) {
 
 
@@ -57,7 +55,7 @@ public class Bot extends TelegramLongPollingBot {
 
                 if (msg.getText().equals("/start")) {
                     sendText(user.getId(), msgBot);
-                    sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Choose</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
+                    sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Выбери</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
                 }
             } else {
                 String userMessage = msg.getText();
@@ -71,7 +69,7 @@ public class Bot extends TelegramLongPollingBot {
             var idPol = update.getCallbackQuery().getFrom().getId();
             System.out.println(idPol);
             System.out.println(callbackData);
-            bottonTap(idPol, callbackData);
+            handleButtonClick(idPol, callbackData);
         }
 
 
@@ -105,7 +103,6 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    // Метод для сохранения сообщения
     private void saveUserMessage(Long userId, String message, UserStatus userState) {
         System.out.println("Saving message from user " + userId + " with state " + userState + ": " + message);
 
@@ -117,13 +114,14 @@ public class Bot extends TelegramLongPollingBot {
                     status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_DATE);
                     natalChart.natalChartCalc(userId, status, this);
                 } else
-                    natalChart.natalChartCalc(userId, userState, this);
+                    sendText(userId, "Неверный формат даты!");
+                natalChart.natalChartCalc(userId, userState, this);
                 break;
             case ENTERED_BIRTH_TIME:
                 if (message.length() < 2) {
+                    sendText(userId, "Неверный формат названия города!");
                     natalChart.natalChartCalc(userId, userState, this);
                 } else {
-                    sendText(userId, "Все круто, молодец!");
                     natalChart.setBirthPlace(message);
                     status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_PLACE);
                     natalChart.natalChartCalc(userId, status, this);
@@ -135,7 +133,8 @@ public class Bot extends TelegramLongPollingBot {
                     status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_TIME);
                     natalChart.natalChartCalc(userId, status, this);
                 } else
-                    natalChart.natalChartCalc(userId, userState, this);
+                    sendText(userId, "Неверный формат времени!");
+                natalChart.natalChartCalc(userId, userState, this);
                 break;
             default:
                 System.out.println("Unknown state!");
@@ -181,7 +180,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-    public void bottonTap(Long Id, String Call) {
+    public void handleButtonClick(Long Id, String Call) {
         String pg2 = new String("Натальная карта — это астрологическая карта, " +
                 "которая показывает позиции небесных тел в момент вашего рождения. \uD83C\uDF0C✨ Она помогает " +
                 "вам понять, как различные планеты и знаки зодиака влияют на вашу личность, " +
