@@ -48,43 +48,15 @@ public class GetRequestHandler {
                 break;
             }
         }
-        if (enterText.length() > 4096) {
-            int ind = 0;
-            int startInd = 0;
-            int pointer1 = 0;
-            int pointer2 = 0;
-            String res = "";
-            while (ind != enterText.length() - 1) {
-                if (res.length() <= 4096) {
-                    res += enterText.charAt(ind);
-                    if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
-                        pointer1 = ind;
-                    else if (enterText.charAt(ind) == '.') {
-                        pointer2 = ind;
-                    }
-
-                } else {
-                    if (pointer1 != 0) {
-                        bot.sendText(id, enterText.substring(startInd, pointer1));
-                        ind = pointer1 + 2;
-                        startInd = ind;
-                        pointer1 = 0;
-                    } else {
-                        bot.sendText(id, enterText.substring(startInd, pointer2 + 1));
-                        ind = pointer2 + 1;
-                        startInd = ind;
-                        pointer2 = 0;
-                    }
-                    res = "";
-                    continue;
-                }
-                ind++;
-            }
-            if (!(res.isEmpty()))
-                bot.sendText(id, res);
-        } else {
+        try {
             bot.sendText(id, enterText);
+        } catch (Exception e) {
+            splitMessage(enterText, id, bot);
         }
+        bot.sendImage(id, urlEncodingImage(enterImage));
+    }
+
+    public String urlEncodingImage(String enterImage) {
         //url encoding, только в кавычках
         StringBuilder result = new StringBuilder();
         Pattern pattern = Pattern.compile("\"(.*?)\"");
@@ -107,6 +79,42 @@ public class GetRequestHandler {
         }
         result.append(enterImage.substring(lastEnd));
         String enterImageRes = result.toString();
-        bot.sendImage(id, enterImageRes);
+        return enterImageRes;
+    }
+
+    public void splitMessage(String enterText, Long id, Bot bot) {
+        int ind = 0;
+        int startInd = 0;
+        int pointer1 = 0;
+        int pointer2 = 0;
+        String res = "";
+        while (ind != enterText.length() - 1) {
+            if (res.length() <= 4096) {
+                res += enterText.charAt(ind);
+                if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
+                    pointer1 = ind;
+                else if (enterText.charAt(ind) == '.') {
+                    pointer2 = ind;
+                }
+
+            } else {
+                if (pointer1 != 0) {
+                    bot.sendText(id, enterText.substring(startInd, pointer1));
+                    ind = pointer1 + 2;
+                    startInd = ind;
+                    pointer1 = 0;
+                } else {
+                    bot.sendText(id, enterText.substring(startInd, pointer2 + 1));
+                    ind = pointer2 + 1;
+                    startInd = ind;
+                    pointer2 = 0;
+                }
+                res = "";
+                continue;
+            }
+            ind++;
+        }
+        if (!(res.isEmpty()))
+            bot.sendText(id, res);
     }
 }
