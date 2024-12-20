@@ -113,9 +113,10 @@ public class Bot extends TelegramLongPollingBot {
                     natalChart.setBirthDate(message.split("\\.")[0], message.split("\\.")[1], message.split("\\.")[2]);
                     status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_DATE);
                     natalChart.natalChartCalc(userId, status, this);
-                } else
+                } else {
                     sendText(userId, "Неверный формат даты!");
-                natalChart.natalChartCalc(userId, userState, this);
+                    natalChart.natalChartCalc(userId, userState, this);
+                }
                 break;
             case ENTERED_BIRTH_TIME:
                 if (message.length() < 2) {
@@ -132,9 +133,10 @@ public class Bot extends TelegramLongPollingBot {
                     natalChart.setBirthTime(message.split(":")[0], message.split(":")[1]);
                     status.setUserState(userId, UserStatus.UserState.ENTERED_BIRTH_TIME);
                     natalChart.natalChartCalc(userId, status, this);
-                } else
+                } else {
                     sendText(userId, "Неверный формат времени!");
-                natalChart.natalChartCalc(userId, userState, this);
+                    natalChart.natalChartCalc(userId, userState, this);
+                }
                 break;
             default:
                 System.out.println("Unknown state!");
