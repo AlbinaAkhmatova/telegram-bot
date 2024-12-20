@@ -12,17 +12,17 @@ import org.jsoup.Connection;
 import java.io.File;
 
 
-public class Posts {
+public class PostRequestHandler {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
 
-    public static void getPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
+    public static void processPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
         try {
             Connection.Response response = Jsoup.connect(urlString).method(Connection.Method.POST).execute();
             int status = response.statusCode();
             if (status == 200) {
                 System.out.println("Соединение успешно");
             } else System.out.println("Ошибка соединения: " + status);
-            File driverFile = new File(Posts.class.getClassLoader().getResource("driver/chromedriver.exe").toURI());
+            File driverFile = new File(PostRequestHandler.class.getClassLoader().getResource("driver/chromedriver.exe").toURI());
             System.setProperty("webdriver.chrome.driver", driverFile.getAbsolutePath());
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
@@ -60,8 +60,8 @@ public class Posts {
                 if (cityRight) {
                     WebElement submitButton = driver.findElement(By.name("Submit"));
                     submitButton.click();
-                    Gets getRequest = new Gets();
-                    getRequest.getGets(driver, bot, id);
+                    GetRequestHandler getRequest = new GetRequestHandler();
+                    getRequest.processGets(driver, bot, id);
                     bot.status.removeUserState(id);
                 }
 

@@ -13,8 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Gets {
-    public void getGets(WebDriver driver, Bot bot, Long id) throws UnsupportedEncodingException, MalformedURLException {
+public class GetRequestHandler {
+    public void processGets(WebDriver driver, Bot bot, Long id) throws
+            UnsupportedEncodingException, MalformedURLException {
         String source = driver.getPageSource();
         Document doc = Jsoup.parse(source);
         Elements img = doc.select("img");

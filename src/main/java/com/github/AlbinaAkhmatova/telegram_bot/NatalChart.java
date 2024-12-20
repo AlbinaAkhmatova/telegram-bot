@@ -43,16 +43,16 @@ public class NatalChart {
         }
         if (status.getUserState(Id) == UserStatus.UserState.ENTERED_BIRTH_PLACE) {
             bot.sendText(Id, "Ты все ввел! Жди свой результат");
-            this.getPosTs(bot, Id);
-
+            this.applyPosts(bot, Id);
         }
 
 
     }
 
-    public void getPosTs(Bot bot, Long id) {
+    public void applyPosts(Bot bot, Long id) {
         System.out.println(birthDateMonth);
-        Posts.getPosts(birthDateDay, birthDateMonth, birthDateYear, birthPlace, birthHour, birthMinute, bot, id);
+        PostRequestHandler.processPosts(birthDateDay, birthDateMonth, birthDateYear, birthPlace, birthHour, birthMinute,
+                bot, id);
     }
 
 
