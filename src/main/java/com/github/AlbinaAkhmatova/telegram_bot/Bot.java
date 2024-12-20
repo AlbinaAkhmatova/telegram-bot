@@ -70,7 +70,6 @@ public class Bot extends TelegramLongPollingBot {
             String callbackData = update.getCallbackQuery().getData();
             var idPol = update.getCallbackQuery().getFrom().getId();
             System.out.println(idPol);
-            // var user=update.getCallbackQuery();
             System.out.println(callbackData);
             bottonTap(idPol, callbackData);
         }
@@ -81,28 +80,26 @@ public class Bot extends TelegramLongPollingBot {
     public static boolean isValidDate(String dateStr, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
-            // Парсим дату
             LocalDate date = LocalDate.parse(dateStr, formatter);
 
             int currentYear = LocalDate.now().getYear();
             int year = date.getYear();
             if (year < 1928 || year > currentYear) {
-                return false; // Год не соответствует требованиям
+                return false;
             }
 
-            // Если парсинг успешен, проверяем, что строка соответствует дате
             String formattedDate = date.format(formatter);
-            return formattedDate.equals(dateStr); // Сравниваем исходную строку с отформатированной
+            return formattedDate.equals(dateStr);
         } catch (DateTimeParseException e) {
-            return false; // Дата некорректна
+            return false;
         }
     }
 
     public static boolean isValidTime(String timeStr) {
         try {
-            // Попробуем распарсить строку в LocalTime
+
             LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
-            return true; // Если парсинг прошел успешно, время корректно
+            return true;
         } catch (DateTimeParseException e) {
             return false;
         }
@@ -160,7 +157,7 @@ public class Bot extends TelegramLongPollingBot {
     public void sendImage(long chatId, String imageUrl) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(String.valueOf(chatId));
-        // Создаем InputFile из URL-адреса изображения
+        // создаем InputFile из URL-адреса изображения
         InputFile inputFile = new InputFile(imageUrl);
         sendPhoto.setPhoto(inputFile);
 
