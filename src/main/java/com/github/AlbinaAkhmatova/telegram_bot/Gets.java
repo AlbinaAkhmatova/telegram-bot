@@ -1,4 +1,4 @@
-package org.example;
+package com.github.AlbinaAkhmatova.telegram_bot;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

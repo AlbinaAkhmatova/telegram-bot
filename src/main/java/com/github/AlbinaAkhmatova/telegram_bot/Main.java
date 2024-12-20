@@ -1,4 +1,4 @@
-package org.example;
+package com.github.AlbinaAkhmatova.telegram_bot;
 
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

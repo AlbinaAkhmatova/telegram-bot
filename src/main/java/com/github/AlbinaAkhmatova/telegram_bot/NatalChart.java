@@ -1,4 +1,4 @@
-package org.example;
+package com.github.AlbinaAkhmatova.telegram_bot;
 
 
 import java.util.HashMap;
