@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 
 
 public class GetRequestHandler {
-    public void processGets(WebDriver driver, Bot bot, Long id) throws
-            UnsupportedEncodingException, MalformedURLException {
+    private static int MAX_MESSAGE_LENGHT = 4096;
+    public void processGets(WebDriver driver, Bot bot, Long id) {
         String source = driver.getPageSource();
         Document doc = Jsoup.parse(source);
         Elements img = doc.select("img");
@@ -48,9 +48,10 @@ public class GetRequestHandler {
                 break;
             }
         }
-        try {
+        String text = enterText.toString();
+        if (text.length()<MAX_MESSAGE_LENGHT) {
             bot.sendText(id, enterText.toString());
-        } catch (Exception e) {
+        } else {
             splitMessage(enterText.toString(), id, bot);
         }
         bot.sendImage(id, urlEncodingImage(enterImage));
@@ -89,7 +90,7 @@ public class GetRequestHandler {
         int pointer2 = 0;
         StringBuilder res = new StringBuilder();
         while (ind != enterText.length() - 1) {
-            if (res.length() <= 4096) {
+            if (res.length() <= MAX_MESSAGE_LENGHT) {
                 res.append(enterText.charAt(ind));
                 if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
                     pointer1 = ind;

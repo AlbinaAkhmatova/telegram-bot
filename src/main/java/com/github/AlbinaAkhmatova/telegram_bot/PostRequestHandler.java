@@ -19,19 +19,19 @@ public class PostRequestHandler {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
 
     public static void processPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
+        WebDriver driver = null;
         try {
             checkConnection();
-            WebDriver driver = initializeWebDriver();
-            try {
-                fillForm(driver, BirthDateDay, BirthDateMonth, BirthDateYear, birtHour, birthMinute, BirthPlace, bot, id);
-            } catch (Exception e) {
-                System.out.println("Ошибка при работе с Selenium: " + e.getMessage());
-            } finally {
-                driver.quit();
-            }
-        } catch (Exception e) {
+            driver = initializeWebDriver();
+            fillForm(driver, BirthDateDay, BirthDateMonth, BirthDateYear, birtHour, birthMinute, BirthPlace, bot, id);
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
             System.out.println("Ошибка работы с сайтом");
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Ошибка при работе с Selenium: " + e.getMessage());
+        } finally {
+            if (driver != null)
+                driver.quit();
         }
     }
 
