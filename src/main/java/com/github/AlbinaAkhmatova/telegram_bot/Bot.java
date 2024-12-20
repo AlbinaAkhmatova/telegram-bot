@@ -60,10 +60,8 @@ public class Bot extends TelegramLongPollingBot {
                     sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Choose</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
                 }
             } else {
-                // Обработка текстовых сообщений, не являющихся командами
                 String userMessage = msg.getText();
-                UserStatus userState = status; // Получаем текущее состояние пользователя
-                // Сохранение сообщения в зависимости от состояния пользователя
+                UserStatus userState = status;
                 saveUserMessage(idPol, userMessage, userState);
             }
 
@@ -106,7 +104,7 @@ public class Bot extends TelegramLongPollingBot {
             LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
             return true; // Если парсинг прошел успешно, время корректно
         } catch (DateTimeParseException e) {
-            return false; // Если возникло исключение, время некорректно
+            return false;
         }
     }
 

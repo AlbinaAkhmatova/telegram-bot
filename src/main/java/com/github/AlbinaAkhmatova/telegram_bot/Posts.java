@@ -55,13 +55,14 @@ public class Posts {
                     bot.sendText(id, "Введите город ещё раз ");
                     cityRight = false;
                     bot.status.setUserState(id, UserStatus.UserState.ENTERED_BIRTH_TIME);
-                    //System.out.println(bot.status);
+
                 }
                 if (cityRight) {
                     WebElement submitButton = driver.findElement(By.name("Submit"));
                     submitButton.click();
                     Gets getRequest = new Gets();
                     getRequest.getGets(driver, bot, id);
+                    bot.status.removeUserState(id);
                 }
 
             } catch (Exception e) {

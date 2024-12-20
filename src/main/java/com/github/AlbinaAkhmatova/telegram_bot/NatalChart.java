@@ -42,9 +42,9 @@ public class NatalChart {
             bot.sendText(Id, "Пожалуйста, введи время, в которое ты родился: (Например: 09:00)");
         }
         if (status.getUserState(Id) == UserStatus.UserState.ENTERED_BIRTH_PLACE) {
-            bot.sendText(Id, "Все, отлично! Жди свой результат");
+            bot.sendText(Id, "Ты все ввел! Жди свой результат");
             this.getPosTs(bot, Id);
-            //status.removeUserState(Id);
+
         }
 
 
