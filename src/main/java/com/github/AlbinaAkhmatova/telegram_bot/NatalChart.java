@@ -45,8 +45,6 @@ public class NatalChart {
             bot.sendText(Id, "Ты все ввел! Жди свой результат");
             this.applyPosts(bot, Id);
         }
-
-
     }
 
     public void applyPosts(Bot bot, Long id) {

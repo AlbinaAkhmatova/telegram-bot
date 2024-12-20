@@ -21,7 +21,7 @@ public class GetRequestHandler {
         Elements img = doc.select("img");
         Elements enterTeg = doc.select("p");
         //итоговый текст
-        String enterText = "";
+        StringBuilder enterText = new StringBuilder();
         //ссылка изображения до кодирования
         String enterImage = "https://www.astroworld.ru/horon/";
         boolean flag = false;
@@ -37,7 +37,7 @@ public class GetRequestHandler {
             }
             if (flag) {
                 if (pointer) {
-                    enterText = enterText + element.text() + "\n";
+                    enterText = new StringBuilder("    " + enterText + element.text() + "\n" + "\n");
                 }
                 pointer = true;
             }
@@ -49,9 +49,9 @@ public class GetRequestHandler {
             }
         }
         try {
-            bot.sendText(id, enterText);
+            bot.sendText(id, enterText.toString());
         } catch (Exception e) {
-            splitMessage(enterText, id, bot);
+            splitMessage(enterText.toString(), id, bot);
         }
         bot.sendImage(id, urlEncodingImage(enterImage));
     }
@@ -87,10 +87,10 @@ public class GetRequestHandler {
         int startInd = 0;
         int pointer1 = 0;
         int pointer2 = 0;
-        String res = "";
+        StringBuilder res = new StringBuilder();
         while (ind != enterText.length() - 1) {
             if (res.length() <= 4096) {
-                res += enterText.charAt(ind);
+                res.append(enterText.charAt(ind));
                 if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
                     pointer1 = ind;
                 else if (enterText.charAt(ind) == '.') {
@@ -109,12 +109,12 @@ public class GetRequestHandler {
                     startInd = ind;
                     pointer2 = 0;
                 }
-                res = "";
+                res = new StringBuilder();
                 continue;
             }
             ind++;
         }
-        if (!(res.isEmpty()))
-            bot.sendText(id, res);
+        if (!res.isEmpty())
+            bot.sendText(id, res.toString());
     }
 }
