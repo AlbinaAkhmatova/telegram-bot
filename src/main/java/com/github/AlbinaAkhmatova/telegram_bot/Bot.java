@@ -19,7 +19,8 @@ public class Bot extends TelegramLongPollingBot {
     InlineKeyboardButton page1 = InlineKeyboardButton.builder().text("Рассчитать натальную карту").callbackData("page1").build();
     InlineKeyboardButton page2 = InlineKeyboardButton.builder().text("Подробнее...").callbackData("page2").build();
     //InlineKeyboardButton page3 = InlineKeyboardButton.builder().text("Цвет ауры").callbackData("page3").build();
-    InlineKeyboardButton url = InlineKeyboardButton.builder().text("Расскажи мне об этом подробнее").url("https://www.kp.ru/woman/goroskop/natalnaya-karta/?ysclid=m2obv52lm8282521393").build();
+    InlineKeyboardButton url = InlineKeyboardButton.builder().text("Расскажи мне об этом подробнее").
+            url("https://www.kp.ru/woman/goroskop/natalnaya-karta/?ysclid=m2obv52lm8282521393").build();
     TokenBot tk = new TokenBot();
     UserStatus status = new UserStatus();
     NatalChart natalChart = new NatalChart();
@@ -40,30 +41,26 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     @Override
-
     public void onUpdateReceived(Update update) {
-
         if (!update.hasCallbackQuery()) {
             var msg = update.getMessage();
             var user = msg.getFrom();
             var idPol = user.getId();
             if (update.getMessage().isCommand()) {
-
-
-                String msgBot = new String("Привет, " + user.getFirstName() + "! Я могу рассчитать натальную карту на основе ваших данных, а именно даты и времени рождения. Если вы хотите узнать больше о каждом пункте, нажмите  \"Подробнее...\". Нажмите на то, что вы хотите узнать!\n");
-
-
+                String msgBot = "Привет, " + user.getFirstName() +
+                        "! Я могу рассчитать натальную карту на основе ваших данных, " +
+                        "а именно даты и времени рождения. \nЕсли вы хотите узнать больше " +
+                        "о каждом пункте, нажмите  \"Подробнее...\". ";
                 if (msg.getText().equals("/start")) {
                     sendText(user.getId(), msgBot);
-                    sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji><b>Выбери</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
+                    sendMenu(user.getId(), "<tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF12</tg-emoji>" +
+                            "<b>Выбери</b><tg-emoji emoji-id=\"5368324170671202286\">\uD83C\uDF18</tg-emoji>", keyboardM1);
                 }
             } else {
                 String userMessage = msg.getText();
                 UserStatus userState = status;
                 saveUserMessage(idPol, userMessage, userState);
             }
-
-
         } else {
             String callbackData = update.getCallbackQuery().getData();
             var idPol = update.getCallbackQuery().getFrom().getId();
@@ -71,15 +68,12 @@ public class Bot extends TelegramLongPollingBot {
             System.out.println(callbackData);
             handleButtonClick(idPol, callbackData);
         }
-
-
     }
 
     public static boolean isValidDate(String dateStr, String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         try {
             LocalDate date = LocalDate.parse(dateStr, formatter);
-
             int currentYear = LocalDate.now().getYear();
             int year = date.getYear();
             if (year < 1928 || year > currentYear) {
@@ -95,7 +89,6 @@ public class Bot extends TelegramLongPollingBot {
 
     public static boolean isValidTime(String timeStr) {
         try {
-
             LocalTime.parse(timeStr, DateTimeFormatter.ofPattern("HH:mm"));
             return true;
         } catch (DateTimeParseException e) {
@@ -158,7 +151,7 @@ public class Bot extends TelegramLongPollingBot {
     public void sendImage(long chatId, String imageUrl) {
         SendPhoto sendPhoto = new SendPhoto();
         sendPhoto.setChatId(String.valueOf(chatId));
-        // создаем InputFile из URL-адреса изображения
+        // InputFile из URL изображения
         InputFile inputFile = new InputFile(imageUrl);
         sendPhoto.setPhoto(inputFile);
 

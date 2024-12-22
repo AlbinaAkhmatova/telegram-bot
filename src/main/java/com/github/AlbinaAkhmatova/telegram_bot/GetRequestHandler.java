@@ -7,14 +7,14 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class GetRequestHandler {
-    private static int MAX_MESSAGE_LENGHT = 4096;
+    private static final int MAX_MESSAGE_LENGTH = 4096;
+
     public void processGets(WebDriver driver, Bot bot, Long id) {
         String source = driver.getPageSource();
         Document doc = Jsoup.parse(source);
@@ -49,7 +49,7 @@ public class GetRequestHandler {
             }
         }
         String text = enterText.toString();
-        if (text.length()<MAX_MESSAGE_LENGHT) {
+        if (text.length() < MAX_MESSAGE_LENGTH) {
             bot.sendText(id, enterText.toString());
         } else {
             splitMessage(enterText.toString(), id, bot);
@@ -79,8 +79,7 @@ public class GetRequestHandler {
             lastEnd = matcher.end();
         }
         result.append(enterImage.substring(lastEnd));
-        String enterImageRes = result.toString();
-        return enterImageRes;
+        return result.toString();
     }
 
     public void splitMessage(String enterText, Long id, Bot bot) {
@@ -90,7 +89,7 @@ public class GetRequestHandler {
         int pointer2 = 0;
         StringBuilder res = new StringBuilder();
         while (ind != enterText.length() - 1) {
-            if (res.length() <= MAX_MESSAGE_LENGHT) {
+            if (res.length() <= MAX_MESSAGE_LENGTH) {
                 res.append(enterText.charAt(ind));
                 if ((enterText.charAt(ind) == '\\') & (enterText.charAt(ind + 1) == 'n'))
                     pointer1 = ind;

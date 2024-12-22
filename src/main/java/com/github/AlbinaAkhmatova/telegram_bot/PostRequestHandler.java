@@ -18,7 +18,8 @@ import java.net.MalformedURLException;
 public class PostRequestHandler {
     private static final String urlString = "https://www.astroworld.ru/horon/person_gpt.htm?ysclid=m3i6kh22iy36893650";
 
-    public static void processPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace, String birtHour, String birthMinute, Bot bot, Long id) {
+    public static void processPosts(String BirthDateDay, String BirthDateMonth, String BirthDateYear, String BirthPlace,
+                                    String birtHour, String birthMinute, Bot bot, Long id) {
         WebDriver driver = null;
         try {
             checkConnection();

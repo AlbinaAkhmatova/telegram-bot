@@ -14,23 +14,18 @@ public class UserStatus {
         ENTERED_BIRTH_PLACE
     }
 
-
     private Map<Long, UserState> userStates = new HashMap<>();
-
 
     public void setUserState(Long userId, UserState state) {
         userStates.put(userId, state);
         System.out.println(state);
     }
 
-
     public UserState getUserState(Long userId) {
         return userStates.getOrDefault(userId, UserState.OFFLINE); // По умолчанию OFFLINE
     }
 
-
     public void removeUserState(Long userId) {
         userStates.remove(userId);
     }
-
 }

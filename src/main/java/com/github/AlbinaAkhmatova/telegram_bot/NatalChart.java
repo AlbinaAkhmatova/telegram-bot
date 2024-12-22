@@ -13,7 +13,6 @@ public class NatalChart {
     private String birthMinute = null;
     Map<String, String> monthMap = new HashMap<>();
 
-
     public NatalChart() {
         monthMap.put("01", "Январь");
         monthMap.put("02", "Февраль");
@@ -68,6 +67,4 @@ public class NatalChart {
         this.birthHour = hour;
         this.birthMinute = minute;
     }
-
-
 }
