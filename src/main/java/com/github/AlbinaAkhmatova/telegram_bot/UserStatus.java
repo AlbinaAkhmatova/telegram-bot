@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserStatus {
-    // определяем состояния пользователей
+    // Определяем состояния пользователей
     public enum UserState {
         OFFLINE,
         CLICKED_DETAILS,
